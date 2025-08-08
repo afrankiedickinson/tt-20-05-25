@@ -1,4 +1,6 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import { healthCheckEndpoint } from "./routes/health";
+import { apiRouter } from "./routes/api/apiRouter";
 
 const app = express();
 
@@ -6,32 +8,10 @@ const PORT: number = parseInt(process.env.PORT || "3001", 10);
 
 app.use(express.json());
 
-/**
- * Health Check Endpoint
- * @route GET /health
- * @description Responds with the server's status, uptime, and current timestamp.
- * Useful for monitoring and load balancers.
- */
-app.get("/health", (req: Request, res: Response) => {
-  // process.uptime() returns the number of seconds the Node.js process has been running
-  const uptimeInSeconds = process.uptime();
-  const uptime = {
-    days: Math.floor(uptimeInSeconds / (3600 * 24)),
-    hours: Math.floor((uptimeInSeconds % (3600 * 24)) / 3600),
-    minutes: Math.floor((uptimeInSeconds % 3600) / 60),
-    seconds: Math.floor(uptimeInSeconds % 60),
-  };
+app.get("/health", healthCheckEndpoint);
 
-  const healthCheckResponse = {
-    status: "ok",
-    uptime,
-    timestamp: new Date().toISOString(), // ISO 8601 format in UTC
-  };
+app.use("/api/v1/", apiRouter);
 
-  res.status(200).json(healthCheckResponse);
-});
-
-// --- SERVER STARTUP ---
 app.listen(PORT, () => {
   console.log(`✅ Server is running successfully on http://localhost:${PORT}`);
   console.log(
