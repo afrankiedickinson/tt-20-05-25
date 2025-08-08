@@ -13,3 +13,5 @@ This is a sliding window approach which means that we avoid a potential memory l
 Production
 
 Use AWS RDS for the database
+
+On the frontend we can use request batching to reduce number of requests to one for refreshing the graphs and table.

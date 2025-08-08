@@ -1,47 +1,14 @@
 import { faker } from "@faker-js/faker";
 import { randomUUID } from "crypto";
 import { STUDIES, STUDY_NAMES } from "./studies";
-import z from "zod";
+import {
+  Participant,
+  ParticipantEvent,
+} from "src/routes/api/participants/participants.type";
+import { REGIONS } from "./regions";
 
-// Age group: 18 - 24, 25 - 34, 35 - 44, 45 - 54, 64+
-
-const REGIONS = [
-  "North America",
-  "South America",
-  "Europe",
-  "Africa",
-  "Asia",
-  "Australia/Oceania",
-];
-
-const participantZod = z.object({
-  participantId: z.string(),
-  fullName: z.string(),
-  demographics: z.object({
-    age: z.number(),
-    region: z.string(),
-  }),
-});
-
-type Participant = z.infer<typeof participantZod>;
-
-const participantEventZod = z.object({
-  eventId: z.string(),
-  participantId: z.string(),
-  studyId: z.string(),
-  eventType: z.union([
-    z.literal("applied"),
-    z.literal("screened_eligible"),
-    z.literal("screened_ineligible"),
-    z.literal("completed"),
-  ]),
-  timestamp: z.date(),
-});
-
-type ParticipantEvent = z.infer<typeof participantEventZod>;
-
-export const participants: Participant[] = [];
-export const participantEvents: ParticipantEvent[] = [];
+export const generatedParticipants: Participant[] = [];
+export const generatedParticipantEvents: ParticipantEvent[] = [];
 
 const findRandomStudy = () => {
   const studyType = faker.helpers.arrayElement(STUDY_NAMES);
@@ -60,9 +27,9 @@ const addParticipantToStudy = ({
   participantId: string;
   previousStudyId?: string;
 }) => {
-  const { randomStudy } = findRandomStudy();
+  const { randomStudy, studyType } = findRandomStudy();
 
-  if (previousStudyId === randomStudy.studyId) {
+  if (previousStudyId && previousStudyId === randomStudy.studyId) {
     return undefined;
   }
 
@@ -76,11 +43,14 @@ const addParticipantToStudy = ({
 
   const randomDate = faker.date.between({ from: startDate, to: endDate });
 
-  participantEvents.push({
+  const createdDate = new Date(randomDate);
+
+  generatedParticipantEvents.push({
     eventId,
     participantId,
     eventType: "applied",
     studyId: randomStudy.studyId,
+    studyType: studyType,
     timestamp: randomDate,
   });
 
@@ -92,24 +62,30 @@ const addParticipantToStudy = ({
 
   if (isEligible) {
     const eligibleEventId = randomUUID();
-    participantEvents.push({
+    generatedParticipantEvents.push({
       eventId: eligibleEventId,
       participantId,
       eventType: "screened_eligible",
       studyId: randomStudy.studyId,
+      studyType: studyType,
       timestamp: eligibilityDate,
     });
   } else {
     const inEligibleEventId = randomUUID();
-    participantEvents.push({
+    generatedParticipantEvents.push({
       eventId: inEligibleEventId,
       participantId,
       eventType: "screened_ineligible",
       studyId: randomStudy.studyId,
+      studyType: studyType,
       timestamp: eligibilityDate,
     });
 
-    return;
+    return {
+      studyId: randomStudy.studyId,
+      createdDate,
+      studyType,
+    };
   }
 
   const studyCompleted = faker.number.int({ min: 0, max: 100 }) > 30;
@@ -120,42 +96,65 @@ const addParticipantToStudy = ({
 
     completedStudyDate.setDate(randomDate.getDate() + 14);
 
-    participantEvents.push({
+    generatedParticipantEvents.push({
       eventId: completedEventId,
       participantId,
       eventType: "completed",
       studyId: randomStudy.studyId,
+      studyType: studyType,
       timestamp: completedStudyDate,
     });
   }
 
   return {
     studyId: randomStudy.studyId,
+    createdDate,
+    studyType,
   };
 };
 
 const createRandomParticipant = () => {
   const participantId = randomUUID();
 
-  const firstUserStudy = addParticipantToStudy({ participantId });
+  const firstParticipantStudy = addParticipantToStudy({ participantId });
 
-  addParticipantToStudy({
+  const secondParticipantStudy = addParticipantToStudy({
     participantId,
-    previousStudyId: firstUserStudy?.studyId,
+    previousStudyId: firstParticipantStudy?.studyId,
   });
+
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - 180);
+
+  if (!firstParticipantStudy) {
+    throw new Error("First user study not found and is required");
+  }
+
+  const studyTypes = [firstParticipantStudy.studyType];
+
+  if (secondParticipantStudy) {
+    studyTypes.push(secondParticipantStudy.studyType);
+  }
 
   const newParticipant = {
     participantId,
+    studyTypes,
     fullName: faker.person.fullName(),
     demographics: {
       age: faker.number.int({ min: 18, max: 75 }),
       region: faker.helpers.arrayElement(REGIONS),
     },
+    createdDate: firstParticipantStudy.createdDate,
   };
 
-  participants.push(newParticipant);
+  generatedParticipants.push(newParticipant);
 };
 
 for (let i = 0; i < 100_000; i++) {
   createRandomParticipant();
 }
+
+generatedParticipants.sort(
+  (a, b) =>
+    new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime(),
+);
