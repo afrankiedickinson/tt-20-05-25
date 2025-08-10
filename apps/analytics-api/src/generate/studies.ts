@@ -513,7 +513,7 @@ export const STUDIES = {
   ],
 };
 
-export const STUDY_NAMES = [
+export const STUDY_TYPES = [
   "Longitudinal Studies",
   "Surveys",
   "Interviews",

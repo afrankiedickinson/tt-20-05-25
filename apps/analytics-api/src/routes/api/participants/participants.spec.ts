@@ -2,7 +2,7 @@ import { expect, describe, test } from "vitest";
 import { ParticipantsService } from "./participants.service";
 
 import { faker } from "@faker-js/faker";
-import { STUDY_NAMES } from "src/generate/studies";
+import { STUDY_TYPES } from "src/generate/studies";
 import { Region, StudyType } from "./participants.type";
 import { REGIONS } from "src/generate/regions";
 
@@ -30,21 +30,21 @@ const createFakeParticipant = ({
 
 const firstPageOfParticipants = Array.from({ length: 10 }, () =>
   createFakeParticipant({
-    studyType: faker.helpers.arrayElement(STUDY_NAMES),
+    studyType: faker.helpers.arrayElement(STUDY_TYPES),
     region: faker.helpers.arrayElement(REGIONS),
   }),
 );
 
 const secondPageOfParticipants = Array.from({ length: 10 }, () =>
   createFakeParticipant({
-    studyType: faker.helpers.arrayElement(STUDY_NAMES),
+    studyType: faker.helpers.arrayElement(STUDY_TYPES),
     region: faker.helpers.arrayElement(REGIONS),
   }),
 );
 
 const thirdPageOfParticipants = Array.from({ length: 10 }, () =>
   createFakeParticipant({
-    studyType: faker.helpers.arrayElement(STUDY_NAMES),
+    studyType: faker.helpers.arrayElement(STUDY_TYPES),
     region: faker.helpers.arrayElement(REGIONS),
   }),
 );
@@ -56,7 +56,6 @@ describe("ParticipantsService", () => {
       params: {
         currentPageNumber: 1,
         numberOfRows: 10,
-        region: "All Regions",
       },
       participants: [
         ...firstPageOfParticipants,
@@ -140,7 +139,6 @@ describe("ParticipantsService", () => {
       params: {
         currentPageNumber: 1,
         numberOfRows: 10,
-        region: "All Regions",
         studyType: "Clinical Trials",
       },
     });
@@ -182,7 +180,7 @@ describe("ParticipantsService", () => {
 
     const firstSevenParticipants = Array.from({ length: 7 }, () =>
       createFakeParticipant({
-        studyType: faker.helpers.arrayElement(STUDY_NAMES),
+        studyType: faker.helpers.arrayElement(STUDY_TYPES),
         region: faker.helpers.arrayElement(REGIONS),
         age: faker.number.int({ min: 25, max: 75 }),
       }),
@@ -190,7 +188,7 @@ describe("ParticipantsService", () => {
 
     const lastThreeParticipants = Array.from({ length: 3 }, () =>
       createFakeParticipant({
-        studyType: faker.helpers.arrayElement(STUDY_NAMES),
+        studyType: faker.helpers.arrayElement(STUDY_TYPES),
         region: faker.helpers.arrayElement(REGIONS),
         age: faker.number.int({ min: 18, max: 24 }),
       }),
@@ -199,7 +197,6 @@ describe("ParticipantsService", () => {
     const filteredPage = participantsService.applyFilters({
       participants: [...firstSevenParticipants, ...lastThreeParticipants],
       params: {
-        region: "All Regions",
         currentPageNumber: 1,
         numberOfRows: 10,
         ageRange: "18-24",
@@ -229,7 +226,7 @@ describe("ParticipantsService", () => {
 
     const firstSevenParticipants = Array.from({ length: 7 }, () =>
       createFakeParticipant({
-        studyType: faker.helpers.arrayElement(STUDY_NAMES),
+        studyType: faker.helpers.arrayElement(STUDY_TYPES),
         region: faker.helpers.arrayElement(REGIONS),
         createdDate: createdDateOver7Days,
       }),
@@ -237,7 +234,7 @@ describe("ParticipantsService", () => {
 
     const lastThreeParticipants = Array.from({ length: 3 }, () =>
       createFakeParticipant({
-        studyType: faker.helpers.arrayElement(STUDY_NAMES),
+        studyType: faker.helpers.arrayElement(STUDY_TYPES),
         region: faker.helpers.arrayElement(REGIONS),
         createdDate: createdDateLessThan7Days,
       }),
@@ -246,7 +243,6 @@ describe("ParticipantsService", () => {
     const filteredPage = participantsService.applyFilters({
       participants: [...firstSevenParticipants, ...lastThreeParticipants],
       params: {
-        region: "All Regions",
         currentPageNumber: 1,
         numberOfRows: 10,
         dateRange: "last 7 days",

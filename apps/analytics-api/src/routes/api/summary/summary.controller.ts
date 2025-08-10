@@ -6,5 +6,5 @@ export const summaryRouter = Router();
 const summaryService = new SummaryService();
 
 summaryRouter.get("/", (_, res) => {
-  res.json(summaryService.createSummaryMetrics());
+  res.json({ data: summaryService.createSummaryMetrics() });
 });

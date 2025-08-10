@@ -3,6 +3,7 @@ import "./style.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Dashboard } from "./pages/dashboard";
 import { BrowserRouter } from "react-router-dom";
+import { DashboardProvider } from "./context/DashboardContext";
 
 const queryClient = new QueryClient();
 
@@ -17,7 +18,9 @@ const App = () => {
 createRoot(document.getElementById("app")!).render(
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
-      <App />
+      <DashboardProvider>
+        <App />
+      </DashboardProvider>
     </BrowserRouter>
   </QueryClientProvider>,
 );

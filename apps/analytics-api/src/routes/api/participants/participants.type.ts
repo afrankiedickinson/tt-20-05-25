@@ -34,17 +34,21 @@ const participantZod = z.object({
 
 export type Participant = z.infer<typeof participantZod>;
 
+const eventTypeZod = z.union([
+  z.literal("applied"),
+  z.literal("screened_eligible"),
+  z.literal("screened_ineligible"),
+  z.literal("completed"),
+]);
+
+export type EventType = z.infer<typeof eventTypeZod>;
+
 export const participantEventZod = z.object({
   eventId: z.string(),
   participantId: z.string(),
   studyType: studyTypeZod,
   studyId: z.string(),
-  eventType: z.union([
-    z.literal("applied"),
-    z.literal("screened_eligible"),
-    z.literal("screened_ineligible"),
-    z.literal("completed"),
-  ]),
+  eventType: eventTypeZod,
   timestamp: z.date(),
 });
 

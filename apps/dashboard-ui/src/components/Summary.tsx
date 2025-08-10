@@ -1,11 +1,4 @@
-interface SummaryMetrics {
-  totalParticipants: number;
-  activeParticipants: number;
-  totalStudies: number;
-  activeStudies: number;
-  averageEligibilityRate: number;
-  completionRate: number;
-}
+import { useSummary } from "@/hooks/useSummary";
 
 interface SummaryCardProps {
   title: string;
@@ -25,49 +18,45 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ title, value }) => (
   </div>
 );
 
-const metrics: SummaryMetrics = {
-  totalParticipants: 12500,
-  activeParticipants: 4200,
-  totalStudies: 48,
-  activeStudies: 18,
-  averageEligibilityRate: 32.5,
-  completionRate: 68.7,
-};
-
 export const Summary = () => {
+  const { data: summary } = useSummary();
   const formatNumber = (num: number) =>
     new Intl.NumberFormat("en-US").format(num);
 
-  const cardData = [
-    {
-      title: "Total Participants",
-      value: formatNumber(metrics.totalParticipants),
-    },
-    {
-      title: "Active Participants",
-      value: formatNumber(metrics.activeParticipants),
-    },
-    {
-      title: "Total Studies",
-      value: formatNumber(metrics.totalStudies),
-    },
-    {
-      title: "Active Studies",
-      value: formatNumber(metrics.activeStudies),
-    },
-    {
-      title: "Avg. Eligibility Rate",
-      value: `${metrics.averageEligibilityRate}%`,
-    },
-    {
-      title: "Completion Rate",
-      value: `${metrics.completionRate}%`,
-    },
-  ];
+  const metrics = summary?.data;
+
+  const cardData = metrics
+    ? [
+        {
+          title: "Total Participants",
+          value: formatNumber(metrics.totalParticipants),
+        },
+        {
+          title: "Active Participants",
+          value: formatNumber(metrics.activeParticipants),
+        },
+        {
+          title: "Total Studies",
+          value: formatNumber(metrics.totalStudies),
+        },
+        {
+          title: "Active Studies",
+          value: formatNumber(metrics.activeStudies),
+        },
+        {
+          title: "Avg. Eligibility Rate",
+          value: `${metrics.averageEligibilityRate}%`,
+        },
+        {
+          title: "Completion Rate",
+          value: `${metrics.completionRate}%`,
+        },
+      ]
+    : Array(6).fill({ title: "Loading...", value: "0" });
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {cardData.map((card, index) => (
+      {cardData?.map((card, index) => (
         <SummaryCard key={index} title={card.title} value={card.value} />
       ))}
     </div>

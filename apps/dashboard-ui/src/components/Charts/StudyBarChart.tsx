@@ -1,3 +1,4 @@
+import { useComparison } from "@/hooks/useComparison";
 import {
   BarChart,
   Bar,
@@ -9,46 +10,20 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const studyData = {
-  dimension: "studyType",
-  metrics: [
-    {
-      name: "Clinical Trials",
-      applications: 1240,
-      completions: 380,
-    },
-    {
-      name: "Surveys",
-      applications: 3800,
-      completions: 2800,
-    },
-    {
-      name: "Focus Groups",
-      applications: 980,
-      completions: 480,
-    },
-    {
-      name: "Longitudinal Studies",
-      applications: 750,
-      completions: 240,
-    },
-  ],
-};
-
 export const StudyBarChart = () => {
+  const { data: comparison } = useComparison();
+
   return (
     <div className="w-full max-w-4xl p-6 md:p-8">
       <h1 className="text-2xl font-bold text-gray-800 mb-2">
         Study Performance
       </h1>
-      <p className="text-gray-500 mb-6">
-        Applications vs. Completions by Study Type
-      </p>
+      <p className="text-gray-500 mb-6">Study Type Comparison</p>
 
-      <div style={{ width: "100%", height: 400 }}>
+      <div className="w-full h-[400px]">
         <ResponsiveContainer>
           <BarChart
-            data={studyData.metrics}
+            data={comparison?.data?.metrics}
             margin={{
               top: 20,
               right: 20,

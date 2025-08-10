@@ -1,7 +1,8 @@
-import React from "react";
+import { DashboardContext } from "@/context/DashboardContext";
+import { useTrend } from "@/hooks/useTrend";
+import { Trend } from "@/lib/api";
+import { useContext } from "react";
 import {
-  BarChart,
-  Bar,
   LineChart,
   Line,
   XAxis,
@@ -12,53 +13,13 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-// --- Data for Bar Chart ---
-const studyData = {
-  dimension: "studyType",
-  metrics: [
-    { name: "Clinical Trials", applications: 1240, completions: 380 },
-    { name: "Surveys", applications: 3800, completions: 2800 },
-    { name: "Focus Groups", applications: 980, completions: 480 },
-    { name: "Longitudinal Studies", applications: 750, completions: 240 },
-  ],
-};
-
-// --- Data for Line Chart ---
-const trendData = {
-  timeRange: "7d",
-  interval: "day",
-  metrics: [
-    {
-      name: "Study Applications",
-      data: [
-        { date: "2025-05-14", value: 250 },
-        { date: "2025-05-15", value: 280 },
-        { date: "2025-05-16", value: 340 },
-        { date: "2025-05-17", value: 270 },
-        { date: "2025-05-18", value: 200 },
-        { date: "2025-05-19", value: 310 },
-        { date: "2025-05-20", value: 380 },
-      ],
-    },
-    {
-      name: "Study Completions",
-      data: [
-        { date: "2025-05-14", value: 180 },
-        { date: "2025-05-15", value: 190 },
-        { date: "2025-05-16", value: 210 },
-        { date: "2025-05-17", value: 175 },
-        { date: "2025-05-18", value: 140 },
-        { date: "2025-05-19", value: 200 },
-        { date: "2025-05-20", value: 220 },
-      ],
-    },
-  ],
-};
-
 export const ParticipationTrendBarChart = () => {
-  // Recharts expects a flat data array, so we need to transform the trendData.
-  const processTrendData = (data) => {
-    const { metrics } = data;
+  const { dateRange } = useContext(DashboardContext);
+  const { data: trendDataServer } = useTrend({
+    dateRange: dateRange || "last 7 days",
+  });
+
+  const processTrendData = ({ metrics }: Trend) => {
     const allDates = [
       ...new Set(metrics.flatMap((m) => m.data.map((d) => d.date))),
     ].sort();
@@ -73,7 +34,9 @@ export const ParticipationTrendBarChart = () => {
     });
   };
 
-  const chartData = processTrendData(trendData);
+  const chartData = trendDataServer?.data
+    ? processTrendData(trendDataServer.data)
+    : [];
 
   // Formatter for the X-axis ticks to show a more readable date
   const formatDateTick = (tickItem: Date) => {
@@ -89,7 +52,7 @@ export const ParticipationTrendBarChart = () => {
         Participation Trends
       </h2>
       <p className="text-gray-500 mb-6">
-        7-Day Study Application and Completion Trends
+        {dateRange || "Last 7 Days"} Study Trends
       </p>
       <div style={{ width: "100%", height: 400 }}>
         <ResponsiveContainer>
@@ -130,7 +93,7 @@ export const ParticipationTrendBarChart = () => {
             <Legend wrapperStyle={{ paddingTop: "20px" }} />
             <Line
               type="monotone"
-              dataKey="Study Applications"
+              dataKey="Application"
               stroke="#6366f1"
               strokeWidth={2}
               activeDot={{ r: 8 }}
@@ -138,8 +101,24 @@ export const ParticipationTrendBarChart = () => {
             />
             <Line
               type="monotone"
-              dataKey="Study Completions"
+              dataKey="Completion"
+              stroke="#3b82f6"
+              strokeWidth={2}
+              activeDot={{ r: 8 }}
+              dot={{ r: 4 }}
+            />
+            <Line
+              type="monotone"
+              dataKey="Eligibility"
               stroke="#22c55e"
+              strokeWidth={2}
+              activeDot={{ r: 8 }}
+              dot={{ r: 4 }}
+            />
+            <Line
+              type="monotone"
+              dataKey="Ineligibility"
+              stroke="#ef4444"
               strokeWidth={2}
               activeDot={{ r: 8 }}
               dot={{ r: 4 }}

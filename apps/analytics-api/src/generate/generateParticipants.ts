@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { randomUUID } from "crypto";
-import { STUDIES, STUDY_NAMES } from "./studies";
+import { STUDIES, STUDY_TYPES } from "./studies";
 import {
   Participant,
   ParticipantEvent,
@@ -11,7 +11,7 @@ export const generatedParticipants: Participant[] = [];
 export const generatedParticipantEvents: ParticipantEvent[] = [];
 
 const findRandomStudy = () => {
-  const studyType = faker.helpers.arrayElement(STUDY_NAMES);
+  const studyType = faker.helpers.arrayElement(STUDY_TYPES);
 
   const studies = STUDIES[studyType];
 

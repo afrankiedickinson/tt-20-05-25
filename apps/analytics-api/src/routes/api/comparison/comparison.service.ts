@@ -1,7 +1,8 @@
 import { generatedParticipantEvents } from "../../../generate/generateParticipants";
+import { ComparisonResponse } from "./comparison.types";
 
 export class ComparisonService {
-  createStudyComparison() {
+  createStudyComparison(): ComparisonResponse {
     let longitudinalStudyApplications = 0;
     let longitudinalStudyCompletions = 0;
 
