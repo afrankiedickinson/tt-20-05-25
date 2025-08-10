@@ -7,5 +7,6 @@ export const useParticipantPages = (params: Record<string, string>) => {
     queryFn: () => {
       return getParticipantPages(params);
     },
+    refetchInterval: 1000,
   });
 };

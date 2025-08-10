@@ -2,7 +2,7 @@ import { createRoot } from "react-dom/client";
 import "./style.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Dashboard } from "./pages/dashboard";
-import { Charts } from "./pages/StudyBarChart";
+import { BrowserRouter } from "react-router-dom";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +16,8 @@ const App = () => {
 
 createRoot(document.getElementById("app")!).render(
   <QueryClientProvider client={queryClient}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </QueryClientProvider>,
 );

@@ -36,7 +36,6 @@ const addParticipantToStudy = ({
   const eventId = randomUUID();
 
   const endDate = new Date();
-  endDate.setDate(endDate.getDate() - 30);
 
   const startDate = new Date();
   startDate.setDate(startDate.getDate() - 180);
@@ -97,6 +96,10 @@ const addParticipantToStudy = ({
 
     completedStudyDate.setDate(randomDate.getDate() + 14);
 
+    if (completedStudyDate.getTime() > endDate.getTime()) {
+      completedStudyDate.setDate(endDate.getDate());
+    }
+
     generatedParticipantEvents.push({
       eventId: completedEventId,
       participantId,
@@ -156,6 +159,26 @@ const createRandomParticipant = () => {
 for (let i = 0; i < 100_000; i++) {
   createRandomParticipant();
 }
+
+setInterval(() => {
+  const newParticipant = {
+    participantId: randomUUID(),
+    studyTypes: [],
+    fullName: faker.person.fullName(),
+    demographics: {
+      age: faker.number.int({ min: 18, max: 75 }),
+      region: faker.helpers.arrayElement(REGIONS),
+    },
+    createdDate: new Date(),
+    active: true,
+  };
+
+  generatedParticipants.push(newParticipant);
+  generatedParticipants.sort(
+    (a, b) =>
+      new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime(),
+  );
+}, 5000);
 
 generatedParticipants.sort(
   (a, b) =>

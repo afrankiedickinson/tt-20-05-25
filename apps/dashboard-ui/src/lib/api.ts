@@ -22,7 +22,7 @@ export const getParticipantPages = async (
   params: Record<string, string>,
 ): Promise<TestResponse> => {
   const definedParams = Object.fromEntries(
-    Object.entries(params).filter(([_, value]) => value != null),
+    Object.entries(params).filter(([_, value]) => !!value),
   );
   const searchParams = new URLSearchParams(definedParams);
   const response = await fetch(`${API_BASE_URL}/participants?${searchParams}`, {

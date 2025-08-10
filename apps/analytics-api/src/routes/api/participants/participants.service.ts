@@ -67,11 +67,7 @@ export class ParticipantsService {
     const filteredPages = [];
 
     for (const page of participants) {
-      if (
-        params.region &&
-        params.region !== "All Regions" &&
-        params.region !== page.demographics.region
-      ) {
+      if (params.region && params.region !== page.demographics.region) {
         continue;
       }
 
