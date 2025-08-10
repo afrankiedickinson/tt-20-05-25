@@ -1,11 +1,5 @@
 import type { Request, Response } from "express";
 
-/**
- * Health Check Endpoint
- * @route GET /health
- * @description Responds with the server's status, uptime, and current timestamp.
- * Useful for monitoring and load balancers.
- */
 export const healthCheckEndpoint = (req: Request, res: Response) => {
   const uptimeInSeconds = process.uptime();
   const uptime = {

@@ -3,34 +3,20 @@ import { Participant, ParticipantsQueryParams } from "./participants.type";
 
 export class ParticipantsService {
   getParticipantPages(params: ParticipantsQueryParams) {
+    const filteredPreviousPage = this.applyFilters({
+      participants: generatedParticipants,
+      params,
+    });
+
     const pages = this.convertToPages({
       params,
-      participants: generatedParticipants,
+      participants: filteredPreviousPage,
     });
-
-    const filteredPreviousPage = pages.previousPage
-      ? this.applyFilters({
-          participants: pages.previousPage,
-          params,
-        })
-      : undefined;
-
-    const filteredCurrentPage = this.applyFilters({
-      participants: pages.currentPage,
-      params,
-    });
-
-    const filteredNextPage = pages.nextPage
-      ? this.applyFilters({
-          participants: pages.nextPage,
-          params,
-        })
-      : undefined;
 
     return {
-      previousPage: filteredPreviousPage,
-      currentPage: filteredCurrentPage,
-      nextPage: filteredNextPage,
+      previousPage: pages.previousPage,
+      currentPage: pages.currentPage,
+      nextPage: pages.nextPage,
     };
   }
 
@@ -81,7 +67,11 @@ export class ParticipantsService {
     const filteredPages = [];
 
     for (const page of participants) {
-      if (params.region && params.region !== page.demographics.region) {
+      if (
+        params.region &&
+        params.region !== "All Regions" &&
+        params.region !== page.demographics.region
+      ) {
         continue;
       }
 

@@ -12,6 +12,7 @@ export const studyTypeZod = z.union([
 export type StudyType = z.infer<typeof studyTypeZod>;
 
 export const regionZod = z.union([
+  z.literal("All Regions"),
   z.literal("North America"),
   z.literal("South America"),
   z.literal("Europe"),
@@ -29,6 +30,7 @@ const participantZod = z.object({
     region: regionZod,
   }),
   createdDate: z.date(),
+  active: z.boolean(),
 });
 
 export type Participant = z.infer<typeof participantZod>;
@@ -71,7 +73,7 @@ export const participantsQueryParamsZod = z.object({
   numberOfRows: z
     .union([z.literal("10"), z.literal("20"), z.literal("50")])
     .transform(Number),
-  region: regionZod.optional(),
+  region: regionZod,
   studyType: studyTypeZod.optional(),
   ageRange: ageRangeZod.optional(),
   dateRange: dateRangeZod.optional(),

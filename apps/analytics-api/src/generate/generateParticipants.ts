@@ -85,6 +85,7 @@ const addParticipantToStudy = ({
       studyId: randomStudy.studyId,
       createdDate,
       studyType,
+      active: false,
     };
   }
 
@@ -110,6 +111,7 @@ const addParticipantToStudy = ({
     studyId: randomStudy.studyId,
     createdDate,
     studyType,
+    active: !studyCompleted,
   };
 };
 
@@ -145,6 +147,7 @@ const createRandomParticipant = () => {
       region: faker.helpers.arrayElement(REGIONS),
     },
     createdDate: firstParticipantStudy.createdDate,
+    active: firstParticipantStudy.active || !!secondParticipantStudy?.active,
   };
 
   generatedParticipants.push(newParticipant);

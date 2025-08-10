@@ -1,10 +1,17 @@
 import express from "express";
 import { healthCheckEndpoint } from "./routes/health";
+import cors from "cors";
 import { apiRouter } from "./routes/api/apiRouter";
 
 const app = express();
 
 const PORT: number = parseInt(process.env.PORT || "3001", 10);
+
+const corsOptions = {
+  origin: "http://localhost:5173",
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 

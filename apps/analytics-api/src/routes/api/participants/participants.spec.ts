@@ -25,6 +25,7 @@ const createFakeParticipant = ({
     region,
   },
   createdDate: createdDate ?? faker.date.past({ years: 2 }),
+  active: true,
 });
 
 const firstPageOfParticipants = Array.from({ length: 10 }, () =>
@@ -55,6 +56,7 @@ describe("ParticipantsService", () => {
       params: {
         currentPageNumber: 1,
         numberOfRows: 10,
+        region: "All Regions",
       },
       participants: [
         ...firstPageOfParticipants,
@@ -77,6 +79,7 @@ describe("ParticipantsService", () => {
       params: {
         currentPageNumber: 2,
         numberOfRows: 10,
+        region: "All Regions",
       },
       participants: [
         ...firstPageOfParticipants,
@@ -99,6 +102,7 @@ describe("ParticipantsService", () => {
       params: {
         currentPageNumber: 3,
         numberOfRows: 10,
+        region: "All Regions",
       },
       participants: [
         ...firstPageOfParticipants,
@@ -136,6 +140,7 @@ describe("ParticipantsService", () => {
       params: {
         currentPageNumber: 1,
         numberOfRows: 10,
+        region: "All Regions",
         studyType: "Clinical Trials",
       },
     });
@@ -194,6 +199,7 @@ describe("ParticipantsService", () => {
     const filteredPage = participantsService.applyFilters({
       participants: [...firstSevenParticipants, ...lastThreeParticipants],
       params: {
+        region: "All Regions",
         currentPageNumber: 1,
         numberOfRows: 10,
         ageRange: "18-24",
@@ -240,6 +246,7 @@ describe("ParticipantsService", () => {
     const filteredPage = participantsService.applyFilters({
       participants: [...firstSevenParticipants, ...lastThreeParticipants],
       params: {
+        region: "All Regions",
         currentPageNumber: 1,
         numberOfRows: 10,
         dateRange: "last 7 days",

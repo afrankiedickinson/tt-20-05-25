@@ -13,10 +13,12 @@
   "license": "ISC",
   "dependencies": {
     "@faker-js/faker": "^9.9.0",
+    "cors": "^2.8.5",
     "express": "^5.1.0",
     "zod": "^4.0.15"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/node": "^24.2.0",
     "nodemon": "^3.1.10",

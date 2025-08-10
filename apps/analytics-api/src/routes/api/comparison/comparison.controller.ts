@@ -6,5 +6,5 @@ export const comparisonRouter = Router();
 const comparisonService = new ComparisonService();
 
 comparisonRouter.get("/", (_, res) => {
-  res.json({ data: comparisonService.report() });
+  res.json({ data: comparisonService.createStudyComparison() });
 });

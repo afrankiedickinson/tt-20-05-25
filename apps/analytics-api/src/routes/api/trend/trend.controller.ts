@@ -6,5 +6,5 @@ export const trendRouter = Router();
 const trendService = new TrendService();
 
 trendRouter.get("/", (_, res) => {
-  res.json({ data: trendService.report() });
+  res.json({ data: trendService.create() });
 });

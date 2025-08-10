@@ -3,6 +3,7 @@ import { apiAuthMiddleware } from "./apiAuthMiddleware";
 import { participantsRouter } from "./participants/participants.controller";
 import { summaryRouter } from "./summary/summary.controller";
 import { trendRouter } from "./trend/trend.controller";
+import { comparisonRouter } from "./comparison/comparison.controller";
 
 export const apiRouter = Router();
 
@@ -17,3 +18,5 @@ apiRouter.use("/participants", participantsRouter);
 apiRouter.use("/summary", summaryRouter);
 
 apiRouter.use("/trend", trendRouter);
+
+apiRouter.use("/comparison", comparisonRouter);
