@@ -11,7 +11,6 @@ export interface TableProps {
 
 export const Table = ({ showLoading }: TableProps) => {
   const { currentPageNumber, currentPage } = useContext(DashboardContext);
-  console.log(showLoading);
 
   return (
     <div className="overflow-hidden rounded-lg bg-white shadow-md">
