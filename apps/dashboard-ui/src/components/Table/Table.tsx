@@ -4,13 +4,27 @@ import { LoadingRow } from "./LoadingRow";
 import { useContext } from "react";
 import { DashboardContext } from "@/context/DashboardContext";
 import { Participant } from "@/lib/api";
+import { useParticipantPages } from "@/hooks/useParticipantPages";
 
 export interface TableProps {
   showLoading: boolean;
 }
 
 export const Table = ({ showLoading }: TableProps) => {
-  const { currentPageNumber, currentPage } = useContext(DashboardContext);
+  const { currentPageNumber, region, studyType, ageRange, dateRange } =
+    useContext(DashboardContext);
+
+  const { data: participants } = useParticipantPages(
+    {
+      numberOfRows: "50",
+      currentPageNumber: currentPageNumber.toString(),
+      region,
+      studyType,
+      ageRange,
+      dateRange,
+    },
+    { staleTime: Infinity },
+  );
 
   return (
     <div className="overflow-hidden rounded-lg bg-white shadow-md">
@@ -31,20 +45,24 @@ export const Table = ({ showLoading }: TableProps) => {
         </thead>
         <tbody className="divide-y divide-gray-200">
           {showLoading && <LoadingRow />}
-          {currentPage?.map((participant: Participant, index: number) => (
-            <tr key={participant.participantId} className="hover:bg-gray-50">
-              <TableData>{index + 1 + (currentPageNumber - 1) * 50}</TableData>
-              <TableData className="hidden md:table-cell">
-                {participant.createdDate}
-              </TableData>
-              <TableData>{participant.fullName}</TableData>
-              <TableData>{participant.demographics.age}</TableData>
-              <TableData>{participant.demographics.region}</TableData>
-              <TableData className="hidden md:table-cell">
-                {participant.participantId}
-              </TableData>
-            </tr>
-          ))}
+          {participants?.data[currentPageNumber]?.map(
+            (participant: Participant, index: number) => (
+              <tr key={participant.participantId} className="hover:bg-gray-50">
+                <TableData>
+                  {index + 1 + (currentPageNumber - 1) * 50}
+                </TableData>
+                <TableData className="hidden md:table-cell">
+                  {participant.createdDate}
+                </TableData>
+                <TableData>{participant.fullName}</TableData>
+                <TableData>{participant.demographics.age}</TableData>
+                <TableData>{participant.demographics.region}</TableData>
+                <TableData className="hidden md:table-cell">
+                  {participant.participantId}
+                </TableData>
+              </tr>
+            ),
+          )}
         </tbody>
       </table>
     </div>

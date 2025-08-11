@@ -12,8 +12,13 @@ participantsRouter.get("/", (req, res) => {
   const participantsQuery = participantsQueryParamsZod.safeParse(queryParams);
 
   if (participantsQuery.success) {
+    const pages = participantsService.getParticipantPages(
+      participantsQuery.data,
+    );
+
     res.json({
-      data: participantsService.getParticipantPages(participantsQuery.data),
+      data: pages.pages,
+      totalPages: pages.totalPages,
     });
   } else {
     res.status(400).json({ error: participantsQuery.error });

@@ -3,20 +3,24 @@ import { Participant, ParticipantsQueryParams } from "./participants.type";
 
 export class ParticipantsService {
   getParticipantPages(params: ParticipantsQueryParams) {
-    const filteredPreviousPage = this.applyFilters({
+    const currentPageNumber = params.currentPageNumber;
+    const filteredPages = this.applyFilters({
       participants: generatedParticipants,
       params,
     });
 
     const pages = this.convertToPages({
       params,
-      participants: filteredPreviousPage,
+      participants: filteredPages,
     });
 
     return {
-      previousPage: pages.previousPage,
-      currentPage: pages.currentPage,
-      nextPage: pages.nextPage,
+      pages: {
+        [currentPageNumber - 1]: pages.previousPage,
+        [currentPageNumber]: pages.currentPage,
+        [currentPageNumber + 1]: pages.nextPage,
+      },
+      totalPages: filteredPages.length,
     };
   }
 

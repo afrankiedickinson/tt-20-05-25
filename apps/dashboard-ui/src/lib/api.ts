@@ -1,11 +1,8 @@
 const API_BASE_URL = "http://localhost:3001/api/v1";
 
-export interface TestResponse {
-  data: {
-    currentPage: Participant[];
-    previousPage: Participant[];
-    nextPage: Participant[];
-  };
+export interface GetParticipantPagesResponse {
+  data?: Record<number, Participant[]>;
+  totalPages?: number;
 }
 
 export interface Participant {
@@ -27,7 +24,7 @@ const parseParams = (params: Record<string, string>) => {
 
 export const getParticipantPages = async (
   params: Record<string, string>,
-): Promise<TestResponse> => {
+): Promise<GetParticipantPagesResponse> => {
   const parsedParams = parseParams(params);
   const searchParams = new URLSearchParams(parsedParams);
 

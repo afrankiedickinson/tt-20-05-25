@@ -1,4 +1,3 @@
-import { Participant } from "@/lib/api";
 import { createContext, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -7,7 +6,6 @@ export const DashboardContext = createContext(null);
 export const DashboardProvider = ({ children }: React.PropsWithChildren) => {
   const [searchParams] = useSearchParams();
 
-  const [currentPage, setCurrentPage] = useState<Participant[] | undefined>();
   const regionParam = searchParams.get("region") || "";
   const studyTypeParam = searchParams.get("studyType") || "";
   const ageRangeParam = searchParams.get("ageRange") || "";
@@ -29,13 +27,11 @@ export const DashboardProvider = ({ children }: React.PropsWithChildren) => {
     studyType,
     ageRange,
     dateRange,
-    currentPage,
     setRegion,
     setStudyType,
     setAgeRange,
     setDateRange,
     currentPageNumber,
-    setCurrentPage,
   };
 
   return (
