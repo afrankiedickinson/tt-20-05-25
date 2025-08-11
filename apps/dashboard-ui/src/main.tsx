@@ -15,7 +15,7 @@ const App = () => {
   );
 };
 
-createRoot(document.getElementById("app")!).render(
+createRoot(document.getElementById("app")).render(
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <DashboardProvider>

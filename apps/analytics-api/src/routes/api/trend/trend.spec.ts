@@ -1,13 +1,14 @@
 import { describe, expect, test } from "vitest";
-import {
+import { faker } from "@faker-js/faker";
+import { TrendService } from "./trend.service";
+
+import type {
   EventType,
   ParticipantEvent,
   StudyType,
 } from "../participants/participants.type";
-import { faker } from "@faker-js/faker";
-import { TrendService } from "./trend.service";
 
-export function generateMockEvents({
+function generateMockEvents({
   studyType,
   timestamp,
   eventType,

@@ -1,5 +1,6 @@
 import { generatedParticipants } from "../../../generate/generateParticipants";
-import { Participant, ParticipantsQueryParams } from "./participants.type";
+
+import type { Participant, ParticipantsQueryParams } from "./participants.type";
 
 export class ParticipantsService {
   getParticipantPages(params: ParticipantsQueryParams) {

@@ -3,8 +3,9 @@ import { ParticipantsService } from "./participants.service";
 
 import { faker } from "@faker-js/faker";
 import { STUDY_TYPES } from "src/generate/studies";
-import { Region, StudyType } from "./participants.type";
 import { REGIONS } from "src/generate/regions";
+
+import type { Region, StudyType } from "./participants.type";
 
 const createFakeParticipant = ({
   studyType,

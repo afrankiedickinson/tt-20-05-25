@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { getTrend, TrendParams } from "@/lib/api";
+import { getTrend } from "@/lib/api";
+
+import type { TrendParams } from "@/lib/api";
 
 export const useTrend = (params: TrendParams) => {
   return useQuery({

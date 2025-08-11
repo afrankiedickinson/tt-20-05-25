@@ -92,6 +92,7 @@ export const Filters = ({ handleFilterChange }: FiltersProps) => {
         options={dateRanges}
       />
       <button
+        type="button"
         onClick={() => {
           setRegion("");
           setStudyType("");

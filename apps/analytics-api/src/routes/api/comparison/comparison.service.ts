@@ -1,5 +1,5 @@
 import { generatedParticipantEvents } from "../../../generate/generateParticipants";
-import { ComparisonResponse } from "./comparison.types";
+import type { ComparisonResponse } from "./comparison.types";
 
 export class ComparisonService {
   createStudyComparison(): ComparisonResponse {

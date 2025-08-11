@@ -1,11 +1,12 @@
 import { faker } from "@faker-js/faker";
-import { randomUUID } from "crypto";
+import { randomUUID } from "node:crypto";
 import { STUDIES, STUDY_TYPES } from "./studies";
-import {
+import { REGIONS } from "./regions";
+
+import type {
   Participant,
   ParticipantEvent,
 } from "src/routes/api/participants/participants.type";
-import { REGIONS } from "./regions";
 
 export const generatedParticipants: Participant[] = [];
 export const generatedParticipantEvents: ParticipantEvent[] = [];

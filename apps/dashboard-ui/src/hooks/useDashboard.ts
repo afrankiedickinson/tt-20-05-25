@@ -28,7 +28,7 @@ export const useDashboard = () => {
     setSearchParams(newParams);
   };
 
-  const handlePageChange = (newPage: number, next: boolean) => {
+  const handlePageChange = (newPage: number) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set("page", newPage.toString());
     setSearchParams(newParams);

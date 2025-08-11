@@ -1,6 +1,5 @@
 import { DashboardContext } from "@/context/DashboardContext";
 import { useTrend } from "@/hooks/useTrend";
-import { Trend } from "@/lib/api";
 import { useContext } from "react";
 import {
   LineChart,
@@ -12,6 +11,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+
+import type { Trend } from "@/lib/api";
 
 export const ParticipationTrendBarChart = () => {
   const { dateRange } = useContext(DashboardContext);

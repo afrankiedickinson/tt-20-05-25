@@ -52,12 +52,19 @@ export const Summary = () => {
           value: `${metrics.completionRate}%`,
         },
       ]
-    : Array(6).fill({ title: "Loading...", value: "0" });
+    : Array.from({ length: 6 }, (_, index) => ({
+        title: `Loading item ${index + 1}...`,
+        value: "0",
+      }));
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {cardData?.map((card, index) => (
-        <SummaryCard key={index} title={card.title} value={card.value} />
+      {cardData?.map((card) => (
+        <SummaryCard
+          key={`key-${card.title}`}
+          title={card.title}
+          value={card.value}
+        />
       ))}
     </div>
   );

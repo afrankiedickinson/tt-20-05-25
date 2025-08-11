@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 
-export const healthCheckEndpoint = (req: Request, res: Response) => {
+export const healthCheckEndpoint = (_: Request, res: Response) => {
   const uptimeInSeconds = process.uptime();
   const uptime = {
     days: Math.floor(uptimeInSeconds / (3600 * 24)),

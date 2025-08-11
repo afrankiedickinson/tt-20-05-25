@@ -1,13 +1,14 @@
 import { generatedParticipantEvents } from "../../../generate/generateParticipants";
-import { ParticipantEvent } from "../participants/participants.type";
-import { DataPoint, Metric, TrendParam } from "./trend.types";
+
+import type { ParticipantEvent } from "../participants/participants.type";
+import type { DataPoint, Metric, TrendParam } from "./trend.types";
 
 export class TrendService {
   calculate(params: TrendParam) {
     const dateRangeMapping = {
-      ["last 7 days"]: 7,
-      ["last 14 days"]: 14,
-      ["last 30 days"]: 30,
+      "last 7 days": 7,
+      "last 14 days": 14,
+      "last 30 days": 30,
     };
 
     const numberOfDays = dateRangeMapping[params.dateRange];
@@ -103,10 +104,9 @@ export class TrendService {
     for (const event of events) {
       const formattedEventDate = event.timestamp.toISOString().slice(0, 10);
       if (dailyCounts.has(formattedEventDate)) {
-        dailyCounts.set(
-          formattedEventDate,
-          dailyCounts.get(formattedEventDate)! + 1,
-        );
+        const eventDate = dailyCounts.get(formattedEventDate) || 0;
+
+        dailyCounts.set(formattedEventDate, eventDate + 1);
       }
     }
 

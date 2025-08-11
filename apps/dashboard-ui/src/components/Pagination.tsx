@@ -31,6 +31,7 @@ export const Pagination = ({
       <div className="flex justify-center p-4">
         <div className="flex items-center gap-x-2">
           <button
+            type={"button"}
             className="cursor-pointer rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
             onClick={(event) => {
               event.preventDefault();
@@ -41,6 +42,7 @@ export const Pagination = ({
             Prev
           </button>
           <button
+            type={"button"}
             disabled={isLoading || !participants?.data[currentPageNumber + 1]}
             className="cursor-pointer rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
             onClick={(event) => {

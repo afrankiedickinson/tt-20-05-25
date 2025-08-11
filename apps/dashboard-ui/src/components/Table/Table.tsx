@@ -3,8 +3,9 @@ import { TableData } from "./TableData";
 import { LoadingRow } from "./LoadingRow";
 import { useContext } from "react";
 import { DashboardContext } from "@/context/DashboardContext";
-import { Participant } from "@/lib/api";
 import { useParticipantPages } from "@/hooks/useParticipantPages";
+
+import type { Participant } from "@/lib/api";
 
 export interface TableProps {
   showLoading: boolean;
