@@ -80,6 +80,7 @@ For the API, we have chosen a feature-based architecture, separating key mutatio
 Given more time, here are some improvements I would consider implementing:
 
   * **Enhanced Testing**:
+      * **Dashboard Testing Note**: Was planning on adding playwright Unit tests but the browser crashing on the linux laptop I am using since normally use mac. 
       * **Testing Strategy**: For a production version we would unit tests per custom component. Relying heavily on ui automation for integration tests to test out ui application logic using playwright. Both integration and e2e. 
       * **End-to-End (E2E) Testing**: Implement E2E tests Playwright to simulate real user interactions and validate entire application flows.
       * **API Integration tests**: For APIs integration tests we would utilise the postgres database to test records since this project does not include an API I have opted to rely heavily on unit testing. In general I would utilise integration tests if a datastore exist to test again and the project contains writes. 
